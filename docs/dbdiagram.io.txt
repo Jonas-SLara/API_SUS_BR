@@ -1,0 +1,61 @@
+Table doenca{
+  id uuid [pk, not null]
+  descricao varchar(255)
+  nome varchar(100) [not null]
+}
+
+Table vacina{
+  id uuid [pk, not null]
+  nome varchar(100)
+  id_doenca uuid [ref: - doenca.id]
+}
+
+Table estrutura_hospitalar{
+  id uuid [pk, not null]
+  tipo enum [not null]
+  quantidade int
+  id_cidade uuid [ref: > cidade.id]
+}
+
+Table cidade{
+  id uuid [pk, not null]
+  nome varchar(40)
+  codigo_ibge char(7)
+  populacao int
+  estado char(2) [not null]
+}
+
+Table epidemia{
+  id uuid [pk, not null]
+  id_doenca uuid [ref: < doenca.id]
+  id_municipio uuid [ref: > cidade.id]
+  data_pesquisa date [not null, unique]
+  obitos int 
+  casos int
+}
+
+Table faixa_etaria{
+  id uuid [pk, not null]
+  descricao varchar(50)
+  idade_min int [not null]
+  idade_max int [not null]
+}
+
+Table cobertura{
+  id uuid [pk, not null]
+  id_vacina uuid [ref: < vacina.id, not null]
+  id_cidade uuid [ref: < cidade.id, not null]
+  id_faixa_etaria uuid [ref: < faixa_etaria.id, not null]
+  data_pesquisa date [not null]
+  populacao_alvo int 
+  vacinados int
+  porcentagem_cobertura decima(5,2)
+}
+
+Table admin{
+  id uuid [pk, not null]
+  login varchar(100)
+  senha varchar(255)
+}
+
+

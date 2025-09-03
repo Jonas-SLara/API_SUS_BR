@@ -1,0 +1,16 @@
+services:
+  dbsus:
+    image: postgres:17
+    ports:
+      - "5000:5432"
+    container_name: dbsus
+    environment:
+      - POSTGRES_DB=dbsus
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    networks:
+      - susnetwork
+
+networks:
+  susnetwork:
+    driver: bridge

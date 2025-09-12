@@ -1,29 +1,32 @@
 package com.csi.sus.model.estruturaHospitalar;
-import java.util.UUID;
 
 import com.csi.sus.model.cidade.Cidade;
 
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Setter;
+
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
+
 //lombok
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 
-//jpa hibernate orm
+//jpa hibernate
 @Entity
 @Table(name = "estrutura_hospitalar")
 
@@ -32,8 +35,10 @@ public class EstruturaHospitalar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tipo", nullable = false)
-    private String tipo;
+    //usar um enum de strings para validar o tipo de leito
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo", nullable = false, length = 50)
+    private TipoLeito tipo;
 
     @Column(name = "quantidade", nullable = false)
     private int quantidade;

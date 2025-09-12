@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS vacina (
 CREATE TABLE IF NOT EXISTS vacina_doenca(
 	id_doenca BIGINT NOT NULL REFERENCES doenca(id),
 	id_vacina BIGINT NOT NULL REFERENCES vacina(id),
+    --chave composta
 	PRIMARY KEY(id_doenca, id_vacina)
 );
 
@@ -22,9 +23,9 @@ CREATE TABLE IF NOT EXISTS vacina_doenca(
 CREATE TABLE IF NOT EXISTS cidade (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     nome VARCHAR(40) NOT NULL,
-    codigo_ibge CHAR(7) UNIQUE NOT NULL,
+    codigo_ibge VARCHAR(7) UNIQUE NOT NULL,
     populacao INT NOT NULL,
-    estado CHAR(2) NOT NULL
+    estado VARCHAR(2) NOT NULL
 );
 
 -- Tabela para armazenar informações sobre a estrutura hospitalar
@@ -57,12 +58,12 @@ CREATE TABLE IF NOT EXISTS faixa_etaria (
 -- Tabela para registrar informações sobre epidemias
 CREATE TABLE IF NOT EXISTS epidemia (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    id_doenca BIGINT REFERENCES doenca(id),
+    id_doenca BIGINT NOT NULL REFERENCES doenca(id),
     id_cidade BIGINT NOT NULL REFERENCES cidade(id),
     data_pesquisa DATE NOT NULL,
     obitos INT CHECK (obitos >= 0),
     casos INT CHECK (casos >= 0),
-    CONSTRAINT data_unica_por_cidade UNIQUE (id_cidade, data_pesquisa)
+    CONSTRAINT data_unica_por_cidade UNIQUE (id_cidade, id_doenca, data_pesquisa)
 );
 
 -- Tabela para registrar a cobertura vacinal
@@ -74,8 +75,9 @@ CREATE TABLE IF NOT EXISTS cobertura (
     data_pesquisa DATE NOT NULL,
     populacao_alvo INT CHECK (populacao_alvo >= 0),
     vacinados INT CHECK (vacinados >= 0),
-    porcentagem_cobertura DECIMAL(5,2),
-    CONSTRAINT unique_cobertura UNIQUE (id_vacina, id_cidade, id_faixa_etaria, data_pesquisa)
+    porcentagem_cobertura DECIMAL(5,3),
+    CONSTRAINT unique_cobertura UNIQUE (
+        id_vacina, id_cidade, id_faixa_etaria, data_pesquisa)
 );
 
 -- Tabela para usuários administradores

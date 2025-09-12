@@ -14,8 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@Embeddable  //diz ao jpa que esta classe pode ser embutida em outra entidade
+@EqualsAndHashCode //gera equals e hash code baseado nos campos
+
+// diz ao jpa que esta classe pode ser embutida em outra entidade 
+@Embeddable
 public class VacinaDoencaId implements Serializable{
     @Column(name = "id_doenca")
     private Long idDoenca;

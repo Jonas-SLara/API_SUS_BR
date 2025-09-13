@@ -1,0 +1,26 @@
+### Criar nova doença
+POST http://localhost:8080/doencas/
+Content-Type: application/json
+
+{
+  "nome": "Covid-19",
+  "descricao": "Infecção respiratória causada pelo SARS-CoV-2"
+}
+
+### Listar todas as doenças
+GET http://localhost:8080/doencas/
+
+### Buscar por ID
+GET http://localhost:8080/doencas/1
+
+### Atualizar doença
+PUT http://localhost:8080/doencas/1
+Content-Type: application/json
+
+{
+  "nome": "Covid-19",
+  "descricao": "Infecção respiratória grave"
+}
+
+### Deletar doença
+DELETE http://localhost:8080/doencas/1

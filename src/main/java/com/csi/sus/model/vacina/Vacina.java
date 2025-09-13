@@ -19,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 
+//jpa hibernate
 @Entity
 @Table(name = "vacina")
 public class Vacina {

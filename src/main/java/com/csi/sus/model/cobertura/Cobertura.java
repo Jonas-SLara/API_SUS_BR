@@ -2,7 +2,6 @@ package com.csi.sus.model.cobertura;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 import com.csi.sus.model.cidade.Cidade;
 import com.csi.sus.model.faixaEtaria.FaixaEtaria;

@@ -1,6 +1,7 @@
 package com.csi.sus.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -24,13 +25,17 @@ public class DoencaService {
     }
 
     //buscar por nome
-    public Optional<Doenca> buscarPorNome(String nome){
-        return this.doencaRepository.findByNome(nome);
+    public Doenca buscarPorNome(String nome){
+        //retorna um optional, se isPresent = true retorna o objeto
+        //se for false lança NoSuchElementException
+        return this.doencaRepository.findByNome(nome)
+        .orElseThrow();
     }
 
     //buscar por id
-    public Optional<Doenca> buscarPorId(Long id){
-        return this.doencaRepository.findById(id);
+    public Doenca buscarPorId(Long id){
+        return this.doencaRepository.findById(id)
+        .orElseThrow();
     }
 
     //listar todas
@@ -39,20 +44,25 @@ public class DoencaService {
     }
 
     //deletar uma
-    public void deletar(Long id){
-        this.doencaRepository.deleteById(id);
+    public Doenca deletar(Long id){
+        Optional<Doenca> d = doencaRepository.findById(id);
+        if(d.isPresent()){
+            this.doencaRepository.deleteById(id);
+            return d.get();
+        }
+        throw new NoSuchElementException();
     }
 
     //update
-    public Boolean editar(Long id, Doenca doencaEditada){
-        Optional<Doenca> doencaAntiga = this.doencaRepository.findById(id);
-        if(doencaAntiga.isPresent()){
-            Doenca d = doencaAntiga.get();
-            d.setDescricao(doencaEditada.getDescricao());
-            d.setNome(doencaEditada.getNome());
+    public Doenca editar(Doenca doenca){
+        Optional<Doenca> temp = this.doencaRepository.findById(doenca.getId());
+        if(temp.isPresent()){
+            Doenca d = temp.get();
+            d.setDescricao(doenca.getDescricao());
+            d.setNome(doenca.getNome());
             this.doencaRepository.save(d);
-            return true;
+            return d;
         }
-        return false;
+        throw new NoSuchElementException();
     }
 }

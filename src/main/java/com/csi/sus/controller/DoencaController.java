@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csi.sus.model.doenca.Doenca;
 import com.csi.sus.service.DoencaService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,48 +39,34 @@ public class DoencaController {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<?> getByNome(@PathVariable String nome) {
-        Optional<Doenca> d = doencaService.buscarPorNome(nome);
-        if(d.isPresent()){
-            return ResponseEntity.ok(d.get());
-        }
-        return ResponseEntity.status(404).body("nome não encontrado");
+    public ResponseEntity<Doenca> getByNome(@PathVariable String nome) {
+        Doenca d = doencaService.buscarPorNome(nome);
+        return ResponseEntity.ok(d);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-        Optional<Doenca> d = doencaService.buscarPorId(id);
-        if(d.isPresent()){
-            return ResponseEntity.ok(d.get());
-        }
-        return ResponseEntity.status(404).body("id não encontrado");
+    public ResponseEntity<?> getById(@Valid @PathVariable Long id) {
+        Doenca d = doencaService.buscarPorId(id);
+        return ResponseEntity.ok(d);
     }
 
+    //anotacao valid valida o argumento e se for falso gera um MethodArgumentNotValidExeption
     @PostMapping("/")
-    public ResponseEntity<Doenca> postDoenca(@RequestBody Doenca doenca) {
+    public ResponseEntity<Doenca> postDoenca(@Valid @RequestBody Doenca doenca){
         Doenca nova = doencaService.salvarDoenca(doenca);
         return ResponseEntity.status(201).body(nova);
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
-        Optional<Doenca> doenca = doencaService.buscarPorId(id);
-        if (doenca.isPresent()) {
-            doencaService.deletar(id);
-            return ResponseEntity.ok(true);
-        }
-        return ResponseEntity.status(404).body(false);
+    public ResponseEntity<?> deleteById(@PathVariable Long id){
+        Doenca doenca = doencaService.deletar(id);
+        return ResponseEntity.ok(doenca);
     }
 
-    @PutMapping("/{id}") 
-    public ResponseEntity<Boolean> putDoenca(
-        @PathVariable Long id,
-        @RequestBody Doenca doenca
-    ) {
-        if(this.doencaService.editar(id, doenca)){
-            return ResponseEntity.ok(true);
-        }
-        return ResponseEntity.status(404).body(false);
+    @PutMapping("/") 
+    public ResponseEntity<?> putDoenca(@Valid @RequestBody Doenca doenca){
+        Doenca d = this.doencaService.editar(doenca);
+        return ResponseEntity.ok(d);
     }
 }
 

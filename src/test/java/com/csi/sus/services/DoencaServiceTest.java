@@ -1,7 +1,6 @@
 package com.csi.sus.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -38,10 +37,9 @@ public class DoencaServiceTest {
 
         //act
         this.doencaService.salvarDoenca(doenca);
-        Optional<Doenca> res = doencaService.buscarPorNome("gripe");
+        Doenca res = doencaService.buscarPorNome("gripe");
         
         //assert
-        assertTrue(res.isPresent());
-        assertEquals("gripe", res.get().getNome());
+        assertEquals("gripe", res.getNome());
     }
 }

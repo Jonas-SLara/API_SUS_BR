@@ -3,8 +3,8 @@ POST http://localhost:8080/doencas/
 Content-Type: application/json
 
 {
-  "nome": "Covid-19",
-  "descricao": "Infecção respiratória causada pelo SARS-CoV-2"
+  "nome": "Sarampo",
+  "descricao": "doenca do sarampo"
 }
 
 ### Listar todas as doenças
@@ -14,10 +14,11 @@ GET http://localhost:8080/doencas/
 GET http://localhost:8080/doencas/1
 
 ### Atualizar doença
-PUT http://localhost:8080/doencas/1
+PUT http://localhost:8080/doencas/
 Content-Type: application/json
 
 {
+  "id":2,
   "nome": "Covid-19",
   "descricao": "Infecção respiratória grave"
 }

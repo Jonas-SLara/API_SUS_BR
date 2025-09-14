@@ -83,6 +83,6 @@ CREATE TABLE IF NOT EXISTS cobertura (
 -- Tabela para usuários administradores
 CREATE TABLE IF NOT EXISTS admin (
     id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE,
-    senha VARCHAR(255)
+    email VARCHAR(255) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL
 );
